@@ -8,6 +8,7 @@ authors = ["Gustavo Sousa <ola@gustavosousa.me>"]
 python = "^3.10"
 Django = "^4.0.3"
 python-decouple = "^3.6"
+djangorestframework = "^3.13.1"
 
 [tool.poetry.dev-dependencies]
 blue = "^0.8.0"
