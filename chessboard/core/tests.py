@@ -250,6 +250,34 @@ def test_piece_moves_action__knight_piece_second_moves__from_g3(
     assert set(r_json['second']['g3']) == {'h5', 'f5', 'e4', 'e2', 'f1'}
 
 
+@pytest.mark.django_db
+def test_piece_moves_action__knight_piece_second_moves__from_b3_on_a_4x4_board(
+    api_client, black_knight_piece
+):
+    payload = {'origin': 'a1', 'board_cols': 4, 'board_rows': 4}
+
+    r_json = api_client.get(
+        reverse('Core:Piece-moves', kwargs={'pk': black_knight_piece.id}),
+        data=payload,
+    ).json()
+
+    assert set(r_json['second']['b3']) == {'d4', 'd2', 'c1'}
+
+
+@pytest.mark.django_db
+def test_piece_moves_action__knight_piece_second_moves__from_c2_on_a_4x4_board(
+    api_client, black_knight_piece
+):
+    payload = {'origin': 'a1', 'board_cols': 4, 'board_rows': 4}
+
+    r_json = api_client.get(
+        reverse('Core:Piece-moves', kwargs={'pk': black_knight_piece.id}),
+        data=payload,
+    ).json()
+
+    assert set(r_json['second']['c2']) == {'d4', 'b4', 'a3'}
+
+
 def test_location_is_inside_chessboard__a1_is_on_the_board():
     assert facade.location_in_the_board('a1') is True
 
@@ -276,3 +304,15 @@ def test_possible_knight_moves__from_h1():
     result = facade.possible_knight_moves('h1')
 
     assert set(result) == {'f2', 'g3'}
+
+
+def test_possible_knight_moves__from_b3_on_a_4x4_board():
+    result = facade.possible_knight_moves('b3', board_cols=4, board_rows=4)
+
+    assert set(result) == {'c1', 'd2', 'a1', 'd4'}
+
+
+def test_possible_knight_moves__from_c2_on_a_4x4_board():
+    result = facade.possible_knight_moves('c2', board_cols=4, board_rows=4)
+
+    assert set(result) == {'a3', 'b4', 'd4', 'a1'}
