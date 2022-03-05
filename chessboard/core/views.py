@@ -1,8 +1,10 @@
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from core.facade import location_in_the_board, next_moves_of_the_piece
 from core.models import Piece
 from core.serializers import PieceSerializer
 
@@ -16,16 +18,11 @@ class PieceViewSet(viewsets.ModelViewSet):
     serializer_class = PieceSerializer
 
     @action(detail=True, methods=['get'])
-    def movements(self, request, pk=None):
-        piece = Piece.objects.get(pk=pk)
+    def moves(self, request, pk=None):
+        piece = get_object_or_404(Piece, pk=pk)
 
         origin = request.query_params.get('origin')
-        if origin is None:
+        if not origin or not location_in_the_board(origin):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        movements = []
-
-        if piece.type is Piece.Type.KNIGHT.value:
-            movements.append('b6')
-
-        return Response({'movements': movements})
+        return Response(next_moves_of_the_piece(piece=piece, origin=origin))

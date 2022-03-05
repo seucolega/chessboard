@@ -11,5 +11,5 @@ router.register(r'piece', views.PieceViewSet, basename='Piece')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('hello-world/', views.hello_world, name='Hello World')
+    path('hello-world/', views.hello_world, name='Hello World'),
 ]
