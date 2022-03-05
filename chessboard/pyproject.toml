@@ -31,3 +31,6 @@ python_classes = ["Test", "Acceptance"]
 python_functions = ["test"]
 testpaths = ["tests"]
 DJANGO_SETTINGS_MODULE = "config.settings"
+
+[tool.coverage.report]
+show_missing = true
