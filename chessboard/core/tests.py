@@ -278,6 +278,34 @@ def test_piece_moves_action__knight_piece_second_moves__from_c2_on_a_4x4_board(
     assert set(r_json['second']['c2']) == {'d4', 'b4', 'a3'}
 
 
+@pytest.mark.django_db
+def test_piece_moves_action__piece_on_i1_is_out_off_the_board(
+    api_client, black_knight_piece
+):
+    payload = {'origin': 'i1'}
+
+    r = api_client.get(
+        reverse('Core:Piece-moves', kwargs={'pk': black_knight_piece.id}),
+        data=payload,
+    )
+
+    assert r.status_code == status.HTTP_400_BAD_REQUEST
+
+
+@pytest.mark.django_db
+def test_piece_moves_action__piece_on_h9_is_out_off_the_board(
+    api_client, black_knight_piece
+):
+    payload = {'origin': 'h9'}
+
+    r = api_client.get(
+        reverse('Core:Piece-moves', kwargs={'pk': black_knight_piece.id}),
+        data=payload,
+    )
+
+    assert r.status_code == status.HTTP_400_BAD_REQUEST
+
+
 def test_location_is_inside_chessboard__a1_is_on_the_board():
     assert facade.location_in_the_board('a1') is True
 

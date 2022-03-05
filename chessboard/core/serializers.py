@@ -29,12 +29,6 @@ class PieceMovesRequestSerializer(serializers.Serializer):
         required=False,
     )
 
-    def update(self, instance, validated_data):
-        pass
-
-    def create(self, validated_data):
-        pass
-
     def validate(self, attrs):
         if not location_in_the_board(
             location=attrs['origin'],
