@@ -81,11 +81,11 @@ def next_moves_of_the_piece(
         result['first'] = possible_knight_moves(
             origin=origin, board_cols=board_cols, board_rows=board_rows
         )
-        result['second'] = {
-            location: possible_knight_moves(
+        for location in result['first']:
+            moves = possible_knight_moves(
                 origin=location, board_cols=board_cols, board_rows=board_rows
             )
-            for location in result['first']
-        }
+            moves.remove(origin)
+            result['second'][location] = moves
 
     return result

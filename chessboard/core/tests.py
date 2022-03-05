@@ -107,7 +107,7 @@ def test_piece_moves_action__first_moves_is_a_list(
 
 
 @pytest.mark.django_db
-def test_piece_moves_action__other_piece_without_moves(
+def test_piece_moves_action__other_piece_has_no_moves(
     api_client, black_piece_of_another_type
 ):
     payload = {'origin': 'c6'}
@@ -138,9 +138,21 @@ def test_piece_moves_action__knight_piece_with_first_moves(
 
 
 @pytest.mark.django_db
-def test_piece_moves_action__has_second_moves__first(
+def test_piece_moves_action__knight_piece_first_moves(
     api_client, black_knight_piece
 ):
+    payload = {'origin': 'h1'}
+
+    r_json = api_client.get(
+        reverse('Core:Piece-moves', kwargs={'pk': black_knight_piece.id}),
+        data=payload,
+    ).json()
+
+    assert set(r_json['first']) == {'f2', 'g3'}
+
+
+@pytest.mark.django_db
+def test_piece_moves_action__has_second_moves(api_client, black_knight_piece):
     payload = {'origin': 'c6'}
 
     r_json = api_client.get(
@@ -166,7 +178,7 @@ def test_piece_moves_action__second_moves_is_a_dict(
 
 
 @pytest.mark.django_db
-def test_piece_moves_action__other_piece_without_moves__second(
+def test_piece_moves_action__other_piece_has_no_second_moves(
     api_client, black_piece_of_another_type
 ):
     payload = {'origin': 'c6'}
@@ -196,33 +208,71 @@ def test_piece_moves_action__knight_piece_with_second_moves(
     assert len(r_json['second'].keys())
 
 
-def test_location_is_inside_chessboard__on_the_board_1():
+@pytest.mark.django_db
+def test_piece_moves_action__knight_piece_second_moves_grouped_by_the_first(
+    api_client, black_knight_piece
+):
+    payload = {'origin': 'h1'}
+
+    r_json = api_client.get(
+        reverse('Core:Piece-moves', kwargs={'pk': black_knight_piece.id}),
+        data=payload,
+    ).json()
+
+    assert set(r_json['second'].keys()) == {'f2', 'g3'}
+
+
+@pytest.mark.django_db
+def test_piece_moves_action__knight_piece_second_moves__from_f2(
+    api_client, black_knight_piece
+):
+    payload = {'origin': 'h1'}
+
+    r_json = api_client.get(
+        reverse('Core:Piece-moves', kwargs={'pk': black_knight_piece.id}),
+        data=payload,
+    ).json()
+
+    assert set(r_json['second']['f2']) == {'h3', 'g4', 'e4', 'd3', 'd1'}
+
+
+@pytest.mark.django_db
+def test_piece_moves_action__knight_piece_second_moves__from_g3(
+    api_client, black_knight_piece
+):
+    payload = {'origin': 'h1'}
+
+    r_json = api_client.get(
+        reverse('Core:Piece-moves', kwargs={'pk': black_knight_piece.id}),
+        data=payload,
+    ).json()
+
+    assert set(r_json['second']['g3']) == {'h5', 'f5', 'e4', 'e2', 'f1'}
+
+
+def test_location_is_inside_chessboard__a1_is_on_the_board():
     assert facade.location_in_the_board('a1') is True
 
 
-def test_location_is_inside_chessboard__on_the_board_2():
+def test_location_is_inside_chessboard__h8_is_on_the_board():
     assert facade.location_in_the_board('h8') is True
 
 
-def test_location_is_inside_chessboard__off_the_board_1():
+def test_location_is_inside_chessboard__i1_is_off_the_board():
     assert facade.location_in_the_board('i1') is False
 
 
-def test_location_is_inside_chessboard__off_the_board_2():
+def test_location_is_inside_chessboard__h9_is_off_the_board():
     assert facade.location_in_the_board('h9') is False
 
 
-def test_possible_knight_moves():
+def test_possible_knight_moves__from_d4():
     result = facade.possible_knight_moves('d4')
 
-    expected = ['b5', 'c6', 'e6', 'f5', 'f3', 'e2', 'c2', 'b3']
-
-    assert set(result) == set(expected)
+    assert set(result) == {'b5', 'c6', 'e6', 'f5', 'f3', 'e2', 'c2', 'b3'}
 
 
-def test_possible_knight_moves__2():
+def test_possible_knight_moves__from_h1():
     result = facade.possible_knight_moves('h1')
 
-    expected = ['f2', 'g3']
-
-    assert set(result) == set(expected)
+    assert set(result) == {'f2', 'g3'}
