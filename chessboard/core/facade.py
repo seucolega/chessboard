@@ -3,7 +3,7 @@ from typing import Dict, List, Tuple, Union
 
 from core.models import Piece
 
-BOARD_SIZE = 8
+DEFAULT_BOARD_SIZE = 8
 
 
 def only_numbers(numbers: str) -> str:
@@ -30,13 +30,11 @@ def int_to_letter(number: int) -> str:
     return chr(number + 96)
 
 
-def board_col_and_row() -> Tuple[int, int]:
-    return BOARD_SIZE, BOARD_SIZE
-
-
-def location_in_the_board(location: str) -> bool:
-    board_cols, board_rows = board_col_and_row()
-
+def location_in_the_board(
+    location: str,
+    board_cols: int = DEFAULT_BOARD_SIZE,
+    board_rows: int = DEFAULT_BOARD_SIZE,
+) -> bool:
     col, row = algebraic_notation_to_col_and_row(location)
 
     return col <= board_cols and row <= board_rows
@@ -50,13 +48,15 @@ def col_and_row_to_algebraic_notation(col: int, row: int) -> str:
     return int_to_letter(col) + str(row)
 
 
-def possible_knight_moves(origin: str) -> List[str]:
+def possible_knight_moves(
+    origin: str,
+    board_cols: int = DEFAULT_BOARD_SIZE,
+    board_rows: int = DEFAULT_BOARD_SIZE,
+) -> List[str]:
     result = []
-    board_cols, board_rows = board_col_and_row()
     origin_col, origin_row = algebraic_notation_to_col_and_row(origin)
 
     # All possible moves of a knight
-    # TODO: Check possible moves for different boards
     col_moves = [2, 1, -1, -2, -2, -1, 1, 2]
     row_moves = [1, 2, 2, 1, -1, -2, -2, -1]
 
@@ -73,14 +73,18 @@ def possible_knight_moves(origin: str) -> List[str]:
 
 
 def next_moves_of_the_piece(
-    piece: Piece, origin: str
+    piece: Piece, origin: str, board_cols: int, board_rows: int
 ) -> Dict[str, Union[List[str], Dict[str, List[str]]]]:
     result = {'first': [], 'second': {}}
 
     if piece.type is Piece.Type.KNIGHT.value:
-        result['first'] = possible_knight_moves(origin)
+        result['first'] = possible_knight_moves(
+            origin=origin, board_cols=board_cols, board_rows=board_rows
+        )
         result['second'] = {
-            location: possible_knight_moves(location)
+            location: possible_knight_moves(
+                origin=location, board_cols=board_cols, board_rows=board_rows
+            )
             for location in result['first']
         }
 
