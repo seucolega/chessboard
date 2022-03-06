@@ -11,5 +11,5 @@ def black_knight_piece() -> Piece:
 
 
 @pytest.fixture
-def black_piece_of_another_type() -> Piece:
-    return Piece.objects.create(type=Piece.Type.OTHER, color=Piece.Color.BLACK)
+def black_king_piece() -> Piece:
+    return Piece.objects.create(type=Piece.Type.KING, color=Piece.Color.BLACK)

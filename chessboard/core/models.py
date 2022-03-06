@@ -7,8 +7,12 @@ class Piece(models.Model):
         WHITE = 'W', 'White'
 
     class Type(models.TextChoices):
-        KNIGHT = 'K', 'Knight'
-        OTHER = 'O', 'Other piece'
+        KING = 'K', 'King'
+        QUEEN = 'Q', 'Queen'
+        ROOK = 'R', 'Rook'
+        BISHOP = 'B', 'Bishop'
+        KNIGHT = 'N', 'Knight'
+        PAWN = 'P', 'Pawn'
 
     color = models.CharField(choices=Color.choices, max_length=1)
     type = models.CharField(choices=Type.choices, max_length=1)

@@ -108,14 +108,14 @@ def test_piece_moves_action__first_moves_is_a_list(
 
 @pytest.mark.django_db
 def test_piece_moves_action__other_piece_has_no_moves(
-    api_client, black_piece_of_another_type
+    api_client, black_king_piece
 ):
     payload = {'origin': 'c6'}
 
     r_json = api_client.get(
         reverse(
             'Core:Piece-moves',
-            kwargs={'pk': black_piece_of_another_type.id},
+            kwargs={'pk': black_king_piece.id},
         ),
         data=payload,
     ).json()
@@ -179,14 +179,14 @@ def test_piece_moves_action__second_moves_is_a_dict(
 
 @pytest.mark.django_db
 def test_piece_moves_action__other_piece_has_no_second_moves(
-    api_client, black_piece_of_another_type
+    api_client, black_king_piece
 ):
     payload = {'origin': 'c6'}
 
     r_json = api_client.get(
         reverse(
             'Core:Piece-moves',
-            kwargs={'pk': black_piece_of_another_type.id},
+            kwargs={'pk': black_king_piece.id},
         ),
         data=payload,
     ).json()
@@ -349,4 +349,3 @@ def test_possible_knight_moves__from_c2_on_a_4x4_board():
 @pytest.mark.django_db
 def test_piece_title(api_client, black_knight_piece):
     assert str(black_knight_piece) == '1, Black, Knight'
-
