@@ -11,4 +11,4 @@ lint:
 	@isort . --check $(ISORT_ARGS)
 test:
 	@prospector .
-	@pytest -v --cov --cov-report term-missing
+	@pytest . --cov

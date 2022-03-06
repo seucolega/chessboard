@@ -344,3 +344,9 @@ def test_possible_knight_moves__from_c2_on_a_4x4_board():
     result = facade.possible_knight_moves('c2', board_cols=4, board_rows=4)
 
     assert set(result) == {'a3', 'b4', 'd4', 'a1'}
+
+
+@pytest.mark.django_db
+def test_piece_title(api_client, black_knight_piece):
+    assert str(black_knight_piece) == '1, Black, Knight'
+
