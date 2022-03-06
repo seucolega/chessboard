@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware',
 ]
 
@@ -138,3 +139,7 @@ DRF_API_LOGGER_DATABASE = config(
 )
 
 DRF_API_LOGGER_SKIP_URL_NAME = ['schema', 'docs', 'redoc']
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
