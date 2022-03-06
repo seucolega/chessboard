@@ -16,3 +16,13 @@ class Piece(models.Model):
     class Meta:
         verbose_name = 'Piece'
         verbose_name_plural = 'Pieces'
+        ordering = ['color', 'type']
+
+    def __str__(self):
+        return ', '.join(
+            (
+                str(self.pk),
+                self.Color(self.color).label,
+                self.Type(self.type).label,
+            )
+        )

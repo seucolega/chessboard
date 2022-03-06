@@ -13,11 +13,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='piece',
             name='color',
-            field=models.CharField(choices=[('B', 'Black'), ('W', 'White')], max_length=1),
+            field=models.CharField(
+                choices=[('B', 'Black'), ('W', 'White')], max_length=1
+            ),
         ),
         migrations.AlterField(
             model_name='piece',
             name='type',
-            field=models.CharField(choices=[('K', 'Knight'), ('O', 'Other piece')], max_length=1),
+            field=models.CharField(
+                choices=[('K', 'Knight'), ('O', 'Other piece')], max_length=1
+            ),
         ),
     ]
