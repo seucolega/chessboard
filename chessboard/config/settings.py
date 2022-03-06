@@ -137,4 +137,4 @@ DRF_API_LOGGER_DATABASE = config(
     'DRF_API_LOGGER_DATABASE', cast=bool, default=True
 )
 
-DRF_API_LOGGER_SKIP_NAMESPACE = ['schema']
+DRF_API_LOGGER_SKIP_URL_NAME = ['schema', 'docs', 'redoc']
