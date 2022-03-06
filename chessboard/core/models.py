@@ -2,16 +2,16 @@ from django.db import models
 
 
 class Piece(models.Model):
-    class Color(models.IntegerChoices):
-        BLACK = 1, 'Black'
-        WHITE = 2, 'White'
+    class Color(models.TextChoices):
+        BLACK = 'B', 'Black'
+        WHITE = 'W', 'White'
 
-    class Type(models.IntegerChoices):
-        KNIGHT = 1, 'Knight'
-        OTHER = 2, 'Other piece'
+    class Type(models.TextChoices):
+        KNIGHT = 'K', 'Knight'
+        OTHER = 'O', 'Other piece'
 
-    color = models.IntegerField(choices=Color.choices)
-    type = models.IntegerField(choices=Type.choices)
+    color = models.CharField(choices=Color.choices, max_length=1)
+    type = models.CharField(choices=Type.choices, max_length=1)
 
     class Meta:
         verbose_name = 'Piece'

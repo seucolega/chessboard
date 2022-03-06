@@ -31,9 +31,9 @@ class PieceMovesRequestSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         if not location_in_the_board(
-            location=attrs['origin'],
-            board_cols=attrs['board_cols'],
-            board_rows=attrs['board_rows'],
+                location=attrs['origin'],
+                board_cols=attrs['board_cols'],
+                board_rows=attrs['board_rows'],
         ):
             raise serializers.ValidationError(
                 'Invalid piece origin location. Did you enter it as '
@@ -41,3 +41,21 @@ class PieceMovesRequestSerializer(serializers.Serializer):
             )
 
         return attrs
+
+
+class PieceMovesResponseSerializer(serializers.Serializer):
+    """
+    Possible next moves for the piece
+    """
+    first = serializers.ListField(
+        help_text='Next possible moves',
+        child=serializers.CharField(
+            help_text='Move in algebraic notation',
+        )
+    )
+    second = serializers.DictField(
+        help_text='Possible next moves grouped by first move',
+        child=serializers.ListField(child=serializers.CharField(
+            help_text='Move in algebraic notation',
+        ))
+    )
