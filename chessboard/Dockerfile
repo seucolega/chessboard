@@ -26,3 +26,6 @@ RUN poetry config virtualenvs.create false \
 
 # Copy project
 COPY . .
+
+# Collect Django static files
+RUN python manage.py collectstatic --noinput

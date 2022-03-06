@@ -8,6 +8,7 @@
 
 # Django stuff
 db.sqlite3
+staticfiles
 
 # ignore all *.class files in all folders, including build root
 **/*.class
