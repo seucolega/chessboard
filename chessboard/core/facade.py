@@ -66,7 +66,7 @@ def possible_knight_moves(
         col = origin_col + col_move
         row = origin_row + row_move
 
-        if 0 < col <= board_rows and 0 < row <= board_cols:
+        if 0 < col <= board_cols and 0 < row <= board_rows:
             result.append(col_and_row_to_algebraic_notation(col=col, row=row))
 
     return result
